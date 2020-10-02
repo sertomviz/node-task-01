@@ -5,11 +5,13 @@ import zombies from './routes/zombies';
 import { catchErrors } from './middlewares/errors';
 import bodyParser from 'body-parser';
 import babelPolyfill from 'babel-polyfill';
-
-// Connect to database
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
+import swaggerOptions from './config/swagger';
 import dbConfig from './config/database';
 import mongoose from 'mongoose';
 
+/* ------------- mongo db --------------- */
 mongoose.connect(dbConfig.mongoUrl, {
   user: dbConfig.mongo_user,
   pass: dbConfig.mongo_password,
@@ -25,6 +27,8 @@ mongoose.connection.on('error', (err) => {
     process.exit();
 });
 
+
+/* ------------- app --------------- */
 const app = express();
 app.use(cors())
 
@@ -38,6 +42,9 @@ app.use('/api/zombies', zombies());
 // errors handling
 app.use(catchErrors);
 
+//api documentation by swagger
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // start the server
 app.listen(config.server.port, () => {
