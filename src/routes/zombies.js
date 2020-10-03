@@ -31,7 +31,24 @@ export default () => {
     * /api/zombies:
     *   get:
     *     summary: Get all zombies
-    *     description: Use to request all zombies
+    *     description: Use to request all zombies. By defaut list is sorted by created_at / desc
+    *     parameters:
+    *         - name: sort_by
+    *           description: name of the field to sort by
+    *           in: query
+    *           type: string
+    *         - name: order_by
+    *           description: direction of sort [asc / desc]
+    *           in: query
+    *           type: string
+    *         - name: offset
+    *           description: position to start the list - for pagination purposes
+    *           in: query
+    *           type: integer
+    *         - name: per_page
+    *           description: number of records per one page - for pagination purposes
+    *           in: query
+    *           type: integer
     *     responses:
     *          '200':
     *             description: A succesfull response
