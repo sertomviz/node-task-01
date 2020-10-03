@@ -47,6 +47,10 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // start the server
-app.listen(config.server.port, () => {
-    console.log(`Server is up on port ${config.server.port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(config.server.port, () => {
+      console.log(`Server is up on port ${config.server.port}`);
+  });
+}
+
+module.exports = app;

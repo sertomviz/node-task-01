@@ -11,7 +11,7 @@
     "start": "env-cmd -f .env node dist/index.js",
     "start:container": "node dist",
     "dev": "env-cmd -f .env nodemon -w ./src --exec \"babel-node ./src\"",
-    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
+    "test": "jest  --setupFiles dotenv/config --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "images:build": "docker-compose --file docker-compose.build.yml build --parallel --progress auto",
     "images:push": "docker-compose --file docker-compose.build.yml push"
   },
@@ -21,6 +21,7 @@
     "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
     "babel-polyfill": "^6.26.0",
+    "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
