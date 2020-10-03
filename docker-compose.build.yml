@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  zombie-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker.pkg.github.com/sertomviz/node-task-01/zombie-service:${VERSION_TAG:?err}

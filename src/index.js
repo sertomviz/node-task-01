@@ -48,5 +48,5 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // start the server
 app.listen(config.server.port, () => {
-    console.log(`Server is up!`);
+    console.log(`Server is up on port ${config.server.port}`);
 });

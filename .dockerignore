@@ -1,0 +1,17 @@
+**/Dockerfile
+**/node_modules
+./README.md
+public
+**/dist
+**/.dockerignore
+**/.git
+**/.vscode
+**/yarn-error.log
+**/.gitignore
+docker*
+**/.DS_Store
+logs
+**/*.tar
+**/*.git
+.env*
+docker-compose*

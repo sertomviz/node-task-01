@@ -9,8 +9,11 @@
     "build": "rimraf ./dist && babel ./src -d ./dist",
     "prestart": "yarn run -s build",
     "start": "env-cmd -f .env node dist/index.js",
+    "start:container": "node dist",
     "dev": "env-cmd -f .env nodemon -w ./src --exec \"babel-node ./src\"",
-    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1"
+    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
+    "images:build": "docker-compose --file docker-compose.build.yml build --parallel --progress auto",
+    "images:push": "docker-compose --file docker-compose.build.yml push"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -38,5 +41,6 @@
     "mongoose": "^5.10.7",
     "swagger-jsdoc": "^4.2.0",
     "swagger-ui-express": "^4.1.4"
-  }
+  },
+  "type": "module"
 }
