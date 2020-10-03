@@ -18,7 +18,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER:?err}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD:?err}
   zombie-service:
-    image: 'zombie-service:${VERSION_TAG:?err}'
+    image: 'docker.pkg.github.com/sertomviz/node-task-01/zombie-service:${VERSION_TAG:?err}'
     restart: unless-stopped
     depends_on:
       - mongo
@@ -30,7 +30,9 @@ services:
       MONGODB_URL: ${MONGODB_URL:?err}
       MONGODB_USER: ${MONGODB_USER:?err}
       MONGODB_PASSWORD: ${MONGODB_PASSWORD:?err}
-      API_PORT: '${API_PORT:?err}'
+      API_PORT: '${API_PORT:?er\r}'
+      REDIS_HOST: '${REDIS_HOST:?err}'
+      REDIS_PORT: '${REDIS_PORT:?err}'
   redis:
     image: redis
     ports:
