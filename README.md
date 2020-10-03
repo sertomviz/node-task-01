@@ -1,5 +1,7 @@
 # node-task-01
 
-run npm install
-install docker
-run docker-compose up
+- run npm install
+
+* install docker
+
+- run docker-compose up
