@@ -3,8 +3,7 @@ import config from './config/config';
 import moment from 'moment';
 import asyncRedis from 'async-redis'
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379
-const cache = asyncRedis.createClient(REDIS_PORT)
+const cache = asyncRedis.createClient(config.redis.port, config.redis.host)
 
 export default {
 
