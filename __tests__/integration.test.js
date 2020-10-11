@@ -1,11 +1,24 @@
 import request from 'supertest';
 import app from '../src/index';
+import Zombie from '../src/models/zombie';
 
 let zombieId;
 
 describe("Testing the Zombie API", () => {
 
-	it("should return the list of all zombies", async () => {
+	beforeAll((done) => { //Before tests we empty the database
+      Zombie.deleteMany({}, (err) => {
+         done();
+      });
+  });
+
+	afterAll((done) => { //After test we clean up the database
+      Zombie.deleteMany({}, (err) => {
+         done();
+      });
+  });
+
+	it("should return the empty list", async () => {
 		const response = await request(app).get('/api/zombies');
 		expect(response.status).toBe(200);
 		expect(response.body.count).toBeGreaterThanOrEqual(0);
@@ -23,6 +36,13 @@ describe("Testing the Zombie API", () => {
 		expect(response.status).toBe(201);
 		expect(response.body.message).toBe('Zombie was created');
     expect(response.body.data).toMatchObject({name: 'zombie-01'})
+	});
+
+	it("should return the list containing one zombie", async () => {
+		const response = await request(app).get('/api/zombies');
+		expect(response.status).toBe(200);
+		expect(response.body.count).toEqual(1);
+		expect(response.body.data).toMatchObject([{name: 'zombie-01'}]);
 	});
 
   it("should not be able to create a zombie without a name", async () => {

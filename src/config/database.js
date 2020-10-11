@@ -1,5 +1,5 @@
 export default {
-    mongoUrl: process.env.MONGODB_URL,
-    mongo_user: process.env.MONGODB_USER,
-    mongo_password: process.env.MONGODB_PASSWORD
+    mongoUrl: process.env.NODE_ENV === 'test' ? process.env.MONGODB_TEST_URL : process.env.MONGODB_URL,
+    mongoUser: process.env.MONGODB_USER,
+    mongoPassword: process.env.MONGODB_PASSWORD
 }

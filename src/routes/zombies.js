@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { catchAsync } from "../middlewares/errors";
-import zombiesController from '../controllers/zombiesController';
+import zombiesController from '../controllers/zombies';
 import getFilters from '../middlewares/filters/zombies';
 
 export default () => {

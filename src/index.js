@@ -13,8 +13,8 @@ import mongoose from 'mongoose';
 
 /* ------------- mongo db --------------- */
 mongoose.connect(dbConfig.mongoUrl, {
-  user: dbConfig.mongo_user,
-  pass: dbConfig.mongo_password,
+  user: dbConfig.mongoUser,
+  pass: dbConfig.mongoPassword,
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

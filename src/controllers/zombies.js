@@ -1,17 +1,20 @@
 import Zombie from '../models/zombie';
-import services from '../services';
+import services from '../services/zombies';
+import apis from '../apis';
 
 export default {
     async getOne(req, res, next) {
         // find zombie in db
-        const zombie = await Zombie.findById(req.params.id);
+        const { id } = req.params;
+        const zombie = await services.getOneZombie(id);
+
         if (!zombie) {
           return res.status(204).send({error: 'Data not found'});
         }
 
         // get data from services
-        const zombieItems = await services.getZombieItems();
-        const { usd, eur } = await services.getCurrencyRates();
+        const zombieItems = await apis.getZombieItems();
+        const { usd, eur } = await apis.getCurrencyRates();
 
         // calculate all items value in PLN
         const itemsInPLN = zombie.items.reduce((value, id) => {
@@ -37,16 +40,13 @@ export default {
     async getAll(req, res) {
           const sort_by = {};
           sort_by[req.query.sort_by || 'created_at'] = req.query.order_by || 'desc';
-          const offset = parseInt(req.query.offset) || 0;
-          const per_page = parseInt(req.query.per_page) || 10;
-          const zombiesPromise =
-              Zombie.find(req.filters)
-                  .skip(offset)
-                  .limit(per_page)
-                  .sort(sort_by);
+          const offset = parseInt(req.query.offset);
+          const per_page = parseInt(req.query.per_page);
 
-          const countPromise = Zombie.countDocuments(req.filters);
+          const zombiesPromise = services.getAllZombies(req.filters, offset, per_page, sort_by);
+          const countPromise = services.getZombieCount(req.filters);
           const [zombies, count] = await Promise.all([zombiesPromise, countPromise]);
+
           return res.status(200).send({ data: zombies, count });
     },
 
@@ -56,21 +56,28 @@ export default {
           return res.status(400).send({validationError: 'name is required'});
         }
 
-        const zombie = await new Zombie({
+        const zombie = await services.createZombie({
             name: name,
             items: items
-        }).save();
+        });
 
         return res.status(201).send({ data: zombie, message: `Zombie was created` });
     },
 
     async update(req, res, next) {
+        const { id } = req.params;
         const { name, items } = req.body;
+
         if (!name) {
           return res.status(400).send({validationError: 'name is required'});
         }
 
-        const zombie = await Zombie.findByIdAndUpdate(req.params.id, { name, items: items || [] }, { new: true });
+        const zombie = await services.updateZombie( id, {
+            name: name,
+            items: items || []
+          }, { new: true }
+        );
+
         if (!zombie) {
           return res.status(204).send({error: 'Data not found'});
         }
@@ -79,12 +86,10 @@ export default {
     },
 
     async remove(req, res, next) {
-        const zombie = await Zombie.findById(req.params.id);
-        if (!zombie) {
-          return res.status(204).send({error: 'Data not found'});
-        }
+        const { id } = req.params;
 
-        await zombie.remove();
+        await services.deleteZombie(id);
+
         return res.status(200).send({ message: `Zombie was removed` });
     }
 }

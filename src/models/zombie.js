@@ -7,6 +7,4 @@ const Zombie = mongoose.Schema({
     created_at: { type: Date, required: true, default: Date.now },
 });
 
-//Zombie.plugin(URLSlugs('name', { field: 'slug', update: true }));
-
 export default mongoose.model('Zombie', Zombie);
